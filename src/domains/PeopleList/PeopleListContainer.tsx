@@ -25,7 +25,9 @@ const PeopleListContainer = (): JSX.Element => {
         return (
           <div key={index} style={{ display: "flex", flexDirection: "row" }}>
             <div>{peopleItem.name}</div> <div>{peopleItem.gender}</div>{" "}
-            <div>{peopleItem.height}</div> <div>{peopleItem.birth_year}</div>
+            <div>{peopleItem.height}</div> <div>{peopleItem.mass}</div>
+            <div>{peopleItem.hair_color}</div> <div>{peopleItem.skin_color}</div>
+            <div>{peopleItem.birth_year}</div>
           </div>
         );
       })}

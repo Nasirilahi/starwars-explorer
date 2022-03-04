@@ -1,0 +1,12 @@
+.toggle-icon {
+  margin-right: 0.65rem;
+  cursor: pointer;
+  display: flex;
+}
+
+.menu-items {
+  margin-top: 10px;
+  /* margin-left: -20px; */
+  display: block;
+  cursor: none;
+}

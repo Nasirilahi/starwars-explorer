@@ -13,6 +13,9 @@ export interface peopleItem {
   gender: string;
   height: string;
   birth_year: string;
+  mass: string;
+  hair_color: string;
+  skin_color: string;
 }
 
 export const initialState: PeopleListContainer = {
@@ -37,7 +40,7 @@ export const peopleListSlice = createSlice({
     }),
     getPeopleSuccess: (state, action) => {
       const {
-        res: { results, count, next },
+        res: { results },
       } = action.payload;
       return {
         ...state,

@@ -19,7 +19,7 @@ export const responseInterceptor = (response: AxiosResponse): AxiosResponse => {
 
 
 const API_AXIOS = (
-    baseURL = process.env.API_ENDPOINT || 'https://swapi.dev/api/',
+    baseURL =  'https://swapi.dev/api/',
     data = {}
   ): AxiosInstance => {
     if (process.env.NODE_ENV === 'test') return axios;
