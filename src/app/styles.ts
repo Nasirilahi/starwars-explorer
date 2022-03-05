@@ -16,9 +16,9 @@ export const MainContainer = styled.div`
 export const BodyContainer = styled.div`
   flex: 1 1 0%;
   display: flex;
-  margin-left: 70px;
+  margin: 0 20px 0 80px;
   @media (max-width: 778px) {
-    margin-left: 20px;
+    margin: 0 20px;
   }
 `;
 
