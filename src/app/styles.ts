@@ -17,6 +17,7 @@ export const BodyContainer = styled.div`
   flex: 1 1 0%;
   display: flex;
   margin: 0 20px 0 80px;
+  overflow: hidden;
   @media (max-width: 778px) {
     margin: 0 20px;
   }

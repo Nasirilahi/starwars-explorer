@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { styled, Box, Paper, Grid, Avatar } from "@mui/material";
 import { useAppDispatch } from "../../store";
 import { fetchMoviesList } from "./redux/MoviesListSlice";
 import selectors from "./redux/MoviesSelector";
-import { stringAvatar } from "../../utils/stringAvatar";
+import ListWrapper from '../../components/ListWrapper';
 import ListTemplate from "../../components/ListTemplate";
 import Dialog from "../../components/Dialog";
 
@@ -40,7 +39,7 @@ const PeopleListContainer = (): JSX.Element => {
   }
   const { title, ...list } = currentSelected;
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <ListWrapper>
       <ListTemplate
         title={"Movies list"}
         list={moviesList}
@@ -48,7 +47,7 @@ const PeopleListContainer = (): JSX.Element => {
         isMovieTemplate={true}
       />
        <Dialog onClose={handleClose} open={open} title={title} list={list} showAvatar={false} />
-    </Box>
+    </ListWrapper>
   );
 };
 

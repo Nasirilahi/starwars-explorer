@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Box } from "@mui/material";
 import { useAppDispatch } from "../../store";
 import { fetchPeopleList } from "./redux/PeopleListSlice";
 import selectors from "./redux/PeopleListSelector";
+import ListWrapper from '../../components/ListWrapper';
 import ListTemplate from "../../components/ListTemplate";
 import Dialog from "../../components/Dialog";
 
@@ -52,7 +52,7 @@ const PeopleListContainer = (): JSX.Element => {
   }
   const { name, ...list } = currentSelected;
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <ListWrapper>
       <ListTemplate
         title={"People List"}
         list={peoplesList}
@@ -65,7 +65,7 @@ const PeopleListContainer = (): JSX.Element => {
         list={list}
         showAvatar={true}
       />
-    </Box>
+    </ListWrapper>
   );
 };
 

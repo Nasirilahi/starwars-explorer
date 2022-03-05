@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Box } from "@mui/material";
 import { useAppDispatch } from "../../store";
 import { fetchPlanetsList } from "./redux/PlanetListSlice";
 import selectors from "./redux/PlanetListSelector";
+import ListWrapper from '../../components/ListWrapper';
 import ListTemplate from "../../components/ListTemplate";
 import Dialog from "../../components/Dialog";
 
@@ -38,14 +38,14 @@ const PlanetListContainer = (): JSX.Element => {
   }
   const { name, ...list } = currentSelected;
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <ListWrapper>
       <ListTemplate
         title={"Planets list"}
         list={planetsList}
         onClick={handleClickOpen}
       />
       <Dialog onClose={handleClose} open={open} title={name} list={list} showAvatar={true} />
-    </Box>
+    </ListWrapper>
   );
 };
 

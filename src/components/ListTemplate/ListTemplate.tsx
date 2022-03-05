@@ -21,10 +21,21 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const ListTemplate = ({ title, list, onClick, isMovieTemplate }: listProps) => {
+    const style = {
+        overflow: "scroll",
+        marginBottom: "20px",
+        msOverflowStyle: "none",
+        scrollbarWidth: "none",
+        "::-webkit-scrollbar": { display: "none" },
+      };
   return (
     <Fragment>
       <Title>{title}</Title>
-      <Grid container spacing={2}>
+      <Grid
+        container
+        spacing={2}
+        sx={style}
+      >
         {list.map((item: any, index: any) => {
           return (
             <Grid key={index} item xs={12} sm={6} md={4}>
