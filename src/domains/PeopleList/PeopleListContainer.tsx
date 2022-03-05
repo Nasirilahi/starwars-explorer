@@ -25,7 +25,6 @@ const PeopleListContainer = (): JSX.Element => {
   const isLoading = useSelector(selectors.isLoading);
   const nextPage = useSelector(selectors.nextPage);
   const hasNextPage = useSelector(selectors.hasNextPage);
-  console.log('nextPage', nextPage, typeof nextPage);
   const loadMore = () => {
     dispatch(fetchPeopleList(nextPage));
   }
