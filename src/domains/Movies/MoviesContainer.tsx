@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { useAppDispatch } from "../../store";
 import { fetchMoviesList } from "./redux/MoviesListSlice";
 import selectors from "./redux/MoviesSelector";
@@ -19,8 +20,20 @@ const PeopleListContainer = (): JSX.Element => {
   const moviesList = useSelector(selectors.moviesListSelector);
   const isError = useSelector(selectors.isError);
   const isLoading = useSelector(selectors.isLoading);
+  const nextPage = useSelector(selectors.nextPage);
+  const hasNextPage = useSelector(selectors.hasNextPage);
+  const loadMore = () => {
+    dispatch(fetchMoviesList(nextPage));
+  }
+  const [sentryRef] = useInfiniteScroll({
+    loading: isLoading,
+    hasNextPage,
+    onLoadMore: loadMore,
+    disabled: isError,
+    rootMargin: '0px 0px 400px 0px',
+  });
   useEffect(() => {
-    dispatch(fetchMoviesList());
+    dispatch(fetchMoviesList('1'));
   }, [dispatch]);
   const handleClickOpen = (item: any) => {
     const { title, director, producer,release_date  } = item;
@@ -31,7 +44,7 @@ const PeopleListContainer = (): JSX.Element => {
     setOpen(false);
   };
 
-  if (isLoading) {
+  if (isLoading && nextPage === '1') {
     return <div>Loading.....</div>;
   }
   if (isError) {
@@ -45,6 +58,8 @@ const PeopleListContainer = (): JSX.Element => {
         list={moviesList}
         onClick={handleClickOpen}
         isMovieTemplate={true}
+        shouldLoadMore={isLoading || hasNextPage}
+        sentryRef={sentryRef}
       />
        <Dialog onClose={handleClose} open={open} title={title} list={list} showAvatar={false} />
     </ListWrapper>

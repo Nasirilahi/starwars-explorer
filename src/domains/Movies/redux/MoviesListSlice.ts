@@ -6,6 +6,8 @@ export interface MoviesListContainer {
   moviesList: movieItem[];
   isLoading: boolean;
   isError: boolean;
+  hasNextPage: boolean;
+  pageNum: string;
 }
 
 export interface movieItem {
@@ -17,6 +19,8 @@ export const initialState: MoviesListContainer = {
   moviesList: [],
   isLoading: false,
   isError: false,
+  hasNextPage: false,
+  pageNum: '1',
 };
 
 export const moviesListSlice = createSlice({
@@ -35,22 +39,30 @@ export const moviesListSlice = createSlice({
     }),
     getMoviesSuccess: (state, action) => {
       const {
-        res: { results },
+        res: { results, next  },
       } = action.payload;
+      let hasNextPage = false, pageNum = state.pageNum;
+      if(next){
+        let page = new URL(next).searchParams.get("page");
+        hasNextPage = true;
+        pageNum = page ? page : state.pageNum;
+      }
       return {
         ...state,
         isLoading: false,
         isError: false,
-        moviesList: results,
+        moviesList: [...state.moviesList, ...results],
+        hasNextPage,
+        pageNum,
       };
     },
   },
 });
 
-export const fetchMoviesList = (): AppThunk => async (dispatch) => {
+export const fetchMoviesList = (nextPage: string): AppThunk => async (dispatch) => {
   try {
     dispatch(moviesListSlice.actions.getMoviesStart());
-    const res = await movieApi.fetchMoviesList();
+    const res = await movieApi.fetchMoviesList(nextPage);
     dispatch(moviesListSlice.actions.getMoviesSuccess({ res }));
   } catch (err) {
     dispatch(moviesListSlice.actions.getMoviesFailure());

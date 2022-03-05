@@ -7,7 +7,7 @@ export interface PeopleListContainer {
   isLoading: boolean;
   isError: boolean;
   hasNextPage: boolean;
-  pageNum: string | null;
+  pageNum: string;
 }
 
 export interface peopleItem {
@@ -51,13 +51,13 @@ export const peopleListSlice = createSlice({
       if(next){
         let page = new URL(next).searchParams.get("page");
         hasNextPage = true;
-        pageNum = page;
+        pageNum = page ? page : state.pageNum;
       }
       return {
         ...state,
         isLoading: false,
         isError: false,
-        poepleList: results,
+        poepleList: [...state.poepleList, ...results],
         hasNextPage,
         pageNum,
       };
@@ -65,7 +65,7 @@ export const peopleListSlice = createSlice({
   },
 });
 
-export const fetchPeopleList = (nextPage: number): AppThunk => async (dispatch) => {
+export const fetchPeopleList = (nextPage: string): AppThunk => async (dispatch) => {
   try {
     dispatch(peopleListSlice.actions.getPeopleStart());
     const res = await peopleApi.fetchPeopleList(nextPage);

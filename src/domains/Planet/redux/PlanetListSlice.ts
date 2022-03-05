@@ -6,6 +6,8 @@ export interface PlanetListContainer {
   planetsList: planetItem[];
   isLoading: boolean;
   isError: boolean;
+  hasNextPage: boolean;
+  pageNum: string;
 }
 
 export interface planetItem {
@@ -18,6 +20,8 @@ export const initialState: PlanetListContainer = {
   planetsList: [],
   isLoading: false,
   isError: false,
+  hasNextPage: false,
+  pageNum: '1',
 };
 
 export const planetsListSlice = createSlice({
@@ -36,22 +40,30 @@ export const planetsListSlice = createSlice({
     }),
     getPlanetsSuccess: (state, action) => {
       const {
-        res: { results },
+        res: { results, next  },
       } = action.payload;
+      let hasNextPage = false, pageNum = state.pageNum;
+      if(next){
+        let page = new URL(next).searchParams.get("page");
+        hasNextPage = true;
+        pageNum = page ? page : state.pageNum;
+      }
       return {
         ...state,
         isLoading: false,
         isError: false,
-        planetsList: results,
+        planetsList: [...state.planetsList, ...results],
+        hasNextPage,
+        pageNum,
       };
     },
   },
 });
 
-export const fetchPlanetsList = (): AppThunk => async (dispatch) => {
+export const fetchPlanetsList = (nextPage: string): AppThunk => async (dispatch) => {
   try {
     dispatch(planetsListSlice.actions.getPlanetsStart());
-    const res = await planetsApi.fetchPlanetsList();
+    const res = await planetsApi.fetchPlanetsList(nextPage);
     dispatch(planetsListSlice.actions.getPlanetsSuccess({ res }));
   } catch (err) {
     dispatch(planetsListSlice.actions.getPlanetsFailure());

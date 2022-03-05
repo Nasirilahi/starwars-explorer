@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { useAppDispatch } from "../../store";
 import { fetchPlanetsList } from "./redux/PlanetListSlice";
 import selectors from "./redux/PlanetListSelector";
@@ -18,8 +19,20 @@ const PlanetListContainer = (): JSX.Element => {
   const planetsList = useSelector(selectors.planetsListSelector);
   const isError = useSelector(selectors.isError);
   const isLoading = useSelector(selectors.isLoading);
+  const nextPage = useSelector(selectors.nextPage);
+  const hasNextPage = useSelector(selectors.hasNextPage);
+  const loadMore = () => {
+    dispatch(fetchPlanetsList(nextPage));
+  }
+  const [sentryRef] = useInfiniteScroll({
+    loading: isLoading,
+    hasNextPage,
+    onLoadMore: loadMore,
+    disabled: isError,
+    rootMargin: '0px 0px 400px 0px',
+  });
   useEffect(() => {
-    dispatch(fetchPlanetsList());
+    dispatch(fetchPlanetsList('1'));
   }, [dispatch]);
 
   const handleClickOpen = (item: any) => {
@@ -30,7 +43,7 @@ const PlanetListContainer = (): JSX.Element => {
   const handleClose = () => {
     setOpen(false);
   };
-  if (isLoading) {
+  if (isLoading && nextPage === '1') {
     return <div>Loading.....</div>;
   }
   if (isError) {
@@ -43,6 +56,8 @@ const PlanetListContainer = (): JSX.Element => {
         title={"Planets list"}
         list={planetsList}
         onClick={handleClickOpen}
+        shouldLoadMore={isLoading || hasNextPage}
+        sentryRef={sentryRef}
       />
       <Dialog onClose={handleClose} open={open} title={name} list={list} showAvatar={true} />
     </ListWrapper>

@@ -8,6 +8,8 @@ interface listProps {
   list: any;
   onClick: any;
   isMovieTemplate?: boolean;
+  shouldLoadMore: boolean;
+  sentryRef: any;
 }
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -20,22 +22,25 @@ const Item = styled(Paper)(({ theme }) => ({
   alignItems: "center",
 }));
 
-const ListTemplate = ({ title, list, onClick, isMovieTemplate }: listProps) => {
-    const style = {
-        overflow: "scroll",
-        marginBottom: "20px",
-        msOverflowStyle: "none",
-        scrollbarWidth: "none",
-        "::-webkit-scrollbar": { display: "none" },
-      };
+const ListTemplate = ({
+  title,
+  list,
+  onClick,
+  isMovieTemplate,
+  shouldLoadMore,
+  sentryRef,
+}: listProps) => {
+  const style = {
+    overflow: "scroll",
+    marginBottom: "20px",
+    msOverflowStyle: "none",
+    scrollbarWidth: "none",
+    "::-webkit-scrollbar": { display: "none" },
+  };
   return (
     <Fragment>
       <Title>{title}</Title>
-      <Grid
-        container
-        spacing={2}
-        sx={style}
-      >
+      <Grid container spacing={2} sx={style}>
         {list.map((item: any, index: any) => {
           return (
             <Grid key={index} item xs={12} sm={6} md={4}>
@@ -55,6 +60,7 @@ const ListTemplate = ({ title, list, onClick, isMovieTemplate }: listProps) => {
             </Grid>
           );
         })}
+        {shouldLoadMore && <div ref={sentryRef}>Loading....</div>}
       </Grid>
     </Fragment>
   );
