@@ -14,6 +14,14 @@ const selectors = {
     ({ peopleList }: AppState) => peopleList.isError,
     (isError) => isError
   ),
+  nextPage: createSelector(
+    ({peopleList}: AppState) => peopleList.pageNum,
+    (nextPage) => nextPage
+  ),
+  hasNextPage: createSelector(
+    ({peopleList}: AppState) => peopleList.hasNextPage,
+    (hasNextPage) => hasNextPage
+  )
 };
 
 export default selectors;

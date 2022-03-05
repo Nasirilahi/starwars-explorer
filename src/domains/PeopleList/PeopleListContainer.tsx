@@ -22,9 +22,11 @@ const PeopleListContainer = (): JSX.Element => {
   const peoplesList = useSelector(selectors.peopleListSelector);
   const isError = useSelector(selectors.isError);
   const isLoading = useSelector(selectors.isLoading);
+  // const nextPage = useSelector(selectors.nextPage);
+  // const hasNextPage = useSelector(selectors.hasNextPage);
   useEffect(() => {
-    dispatch(fetchPeopleList());
-  }, [dispatch]);
+    dispatch(fetchPeopleList(9));
+  }, []);
 
   const handleClickOpen = (peopleItem: any) => {
     const { name, gender, height, birth_year, hair_color, skin_color, mass } =

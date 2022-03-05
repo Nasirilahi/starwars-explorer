@@ -1,8 +1,8 @@
 import apiClient from '../api';
 
 const peopleApi = {
-    fetchPeopleList: async () => {
-            const response = await apiClient().get(`/people/`);
+    fetchPeopleList: async (pageNum: number = 1) => {
+            const response = await apiClient().get(`/people/?page=${pageNum}`);
             return response.data;
     }
 };
