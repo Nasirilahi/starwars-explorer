@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, forwardRef, Ref, ReactElement } from "react";
 import {
   styled,
   Dialog,
@@ -10,15 +10,23 @@ import {
   ListItemText,
   Divider,
   DialogContent,
+  Slide,
+  useMediaQuery,
+  useTheme
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { TransitionProps } from '@mui/material/transitions';
 import { stringAvatar } from "../../utils/stringAvatar";
 import { keyMapper } from "../../utils/valueMapper";
 
-// const Transition = React.forwardRef(function Transition(props, ref) {
-//   return <Slide direction="up" ref={ref} {...props} />;
-// });
-
+const Transition = forwardRef(function Transition(
+  props: TransitionProps & {
+    children: ReactElement<any, any>;
+  },
+  ref: Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -82,12 +90,16 @@ const DialogContainer = ({
   list,
   showAvatar,
 }: DialogProps): JSX.Element => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <BootstrapDialog
       onClose={onClose}
       aria-labelledby="customized-dialog-title"
       open={open}
+      TransitionComponent={Transition}
       fullWidth
+      fullScreen={isMobile}
     >
       <BootstrapDialogTitle id="customized-dialog-title" onClose={onClose}>
         <div style={{ display: "flex", alignContent: "center" }}>
