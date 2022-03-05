@@ -60,7 +60,12 @@ const ListTemplate = ({
             </Grid>
           );
         })}
-        {shouldLoadMore && <div ref={sentryRef}>Loading....</div>}
+
+        {shouldLoadMore && (
+          <Grid ref={sentryRef} item xs={12} sm={6} md={4}>
+            <Item>Loading....</Item>
+          </Grid>
+        )}
       </Grid>
     </Fragment>
   );

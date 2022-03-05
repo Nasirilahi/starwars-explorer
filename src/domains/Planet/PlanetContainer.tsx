@@ -7,6 +7,7 @@ import selectors from "./redux/PlanetListSelector";
 import ListWrapper from '../../components/ListWrapper';
 import ListTemplate from "../../components/ListTemplate";
 import Dialog from "../../components/Dialog";
+import {ChunkLoader} from '../../components/Loader';
 
 const PlanetListContainer = (): JSX.Element => {
   const [open, setOpen] = useState(false);
@@ -44,7 +45,7 @@ const PlanetListContainer = (): JSX.Element => {
     setOpen(false);
   };
   if (isLoading && nextPage === '1') {
-    return <div>Loading.....</div>;
+    return <ChunkLoader />;
   }
   if (isError) {
     return <div />;
