@@ -11,14 +11,14 @@ const menuCollapse = keyframes`
 }
 `;
 
-const menuExpand = keyframes`
-  0% {
-      left: -350px;
-  }
-  100% {
-    left: 0;
-  }
-`;
+// const menuExpand = keyframes`
+//   0% {
+//       left: -350px;
+//   }
+//   100% {
+//     left: 0;
+//   }
+// `;
 export const MainContainer = styled.div`
   display: flex;
   margin: 1.1rem 0 0 0;
